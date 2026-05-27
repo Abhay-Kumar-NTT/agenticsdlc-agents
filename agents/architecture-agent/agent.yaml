@@ -1,0 +1,21 @@
+id: architecture-agent
+name: Architecture Agent
+speciality: solution-and-technical-architecture
+model: gpt-4.1
+inputs:
+  - PRD
+  - epics
+  - constraints
+outputs:
+  - HLD
+  - LLD
+  - ADRs
+  - API contracts
+permissions:
+  github:
+    issues: read
+    contents: write
+    pull_requests: write
+approval_required:
+  - architecture_finalization
+  - repository_changes

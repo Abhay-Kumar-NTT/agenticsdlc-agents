@@ -1,0 +1,38 @@
+name: Architecture Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      prd_path:
+        description: "Path to PRD file"
+        required: true
+        default: "artifacts/prd.md"
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  run-architecture-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Architecture Agent
+        run: |
+          python scripts/run_agent.py \
+            --agent agents/architecture-agent/agent.yaml \
+            --prompt agents/architecture-agent/prompt.md \
+            --input ${{ github.event.inputs.prd_path }} \
+            --output artifacts/architecture/
+
+      - name: Commit generated architecture artifacts
+        run: |
+          git config user.name "AgenticSDLC Architecture Agent"
+          git config user.email "architecture-agent@users.noreply.github.com"
+          git add artifacts/architecture/
+          git commit -m "Generate architecture artifacts" || echo "No changes"
+          git push

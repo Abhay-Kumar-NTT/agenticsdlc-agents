@@ -1,0 +1,26 @@
+id: product-agent
+name: Product Agent
+speciality: product-discovery-and-requirements
+model: gpt-4.1
+
+inputs:
+  - raw_product_vision
+  - business_goals
+  - personas
+  - constraints
+
+outputs:
+  - refined_vision
+  - prd
+  - epics
+  - user_stories
+  - acceptance_criteria
+
+github_outputs:
+  issues: true
+  labels: true
+  milestones: true
+
+approval_required:
+  - prd_finalization
+  - github_issue_creation

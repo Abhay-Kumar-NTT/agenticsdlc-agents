@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": [
+    "refined_vision",
+    "prd",
+    "epics",
+    "user_stories"
+  ],
+  "properties": {
+    "refined_vision": {
+      "type": "string"
+    },
+    "prd": {
+      "type": "string"
+    },
+    "epics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_stories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "persona",
+          "story",
+          "acceptance_criteria",
+          "edge_cases"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "persona": { "type": "string" },
+          "story": { "type": "string" },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "edge_cases": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
