@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "required": ["hld", "lld", "adrs", "api_contracts", "developer_context"],
+  "properties": {
+    "hld": { "type": "string" },
+    "lld": { "type": "string" },
+    "adrs": { "type": "array" },
+    "api_contracts": { "type": "array" },
+    "developer_context": { "type": "string" }
+  }
+}
