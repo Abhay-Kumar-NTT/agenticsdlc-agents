@@ -21,13 +21,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Run Architecture Agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
             --agent agents/architecture-agent/agent.yaml \
             --prompt agents/architecture-agent/prompt.md \
             --input ${{ github.event.inputs.prd_path }} \
-            --output artifacts/architecture/
+            --output artifacts/architecture/ \
+            --verbose
 
       - name: Commit generated architecture artifacts
         run: |
