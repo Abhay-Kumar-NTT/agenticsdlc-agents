@@ -1,7 +1,13 @@
 id: product-agent
 name: Product Agent
 speciality: product-discovery-and-requirements
-model: gpt-4.1
+#model: claude-3-5-sonnet-20241022
+#provider: anthropic
+#model: gpt-4o
+model: gpt-5.4-mini
+provider: openai
+temperature: 0.7
+max_tokens: 4096
 
 inputs:
   - raw_product_vision

@@ -1,7 +1,10 @@
 id: architecture-agent
 name: Architecture Agent
 speciality: solution-and-technical-architecture
-model: gpt-4.1
+model: claude-3-5-sonnet-20241022
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
 inputs:
   - PRD
   - epics

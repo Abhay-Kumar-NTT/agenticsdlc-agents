@@ -1,0 +1,15 @@
+# Core dependencies
+pyyaml>=6.0
+
+# LLM Provider SDKs (install the ones you need)
+# OpenAI (GPT-4, GPT-4o, etc.)
+openai>=1.0.0
+
+# Anthropic (Claude 3.5, Claude 4, etc.)
+anthropic>=0.40.0
+
+# Google Generative AI (Gemini)
+google-generativeai>=0.3.0
+
+# Optional: for additional functionality
+python-dotenv>=1.0.0  # For .env file support
