@@ -1,37 +1,143 @@
 {
   "type": "object",
   "required": [
-    "code_quality_report",
-    "technical_debt_assessment"
+    "business_purpose",
+    "functional_capabilities",
+    "languages_and_runtimes",
+    "code_structure_and_architecture",
+    "libraries_and_dependencies",
+    "code_flow_developer_guide",
+    "architecture_flow_diagram"
   ],
   "properties": {
-    "code_quality_report": {
+    "business_purpose": {
       "type": "object",
-      "required": ["overall_score", "findings"],
+      "required": ["summary", "domain", "intended_users"],
       "properties": {
-        "overall_score": { "type": "number" },
-        "findings": {
+        "summary": { "type": "string" },
+        "domain": { "type": "string" },
+        "intended_users": { "type": "string" }
+      }
+    },
+    "functional_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature", "description"],
+        "properties": {
+          "feature": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "languages_and_runtimes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["language", "runtime"],
+        "properties": {
+          "language": { "type": "string" },
+          "version": { "type": "string" },
+          "runtime": { "type": "string" }
+        }
+      }
+    },
+    "code_structure_and_architecture": {
+      "type": "object",
+      "required": ["pattern", "entry_points", "directory_layout", "key_modules"],
+      "properties": {
+        "pattern": { "type": "string" },
+        "entry_points": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "directory_layout": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["category", "severity", "description", "file", "line"],
+            "required": ["path", "purpose"],
             "properties": {
-              "category": { "type": "string" },
-              "severity": { "type": "string" },
-              "description": { "type": "string" },
-              "file": { "type": "string" },
-              "line": { "type": "number" },
-              "recommendation": { "type": "string" }
+              "path": { "type": "string" },
+              "purpose": { "type": "string" }
+            }
+          }
+        },
+        "key_modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "responsibility"],
+            "properties": {
+              "name": { "type": "string" },
+              "responsibility": { "type": "string" }
             }
           }
         }
       }
     },
-    "technical_debt_assessment": {
+    "libraries_and_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "concern", "purpose"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "concern": { "type": "string" },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "code_flow_developer_guide": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["journey", "starting_file", "files_in_order", "output"],
+        "properties": {
+          "journey": { "type": "string" },
+          "starting_file": { "type": "string" },
+          "files_in_order": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "output": { "type": "string" },
+          "key_files_to_understand": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "extension_points": { "type": "string" }
+        }
+      }
+    },
+    "architecture_flow_diagram": {
       "type": "object",
-      "required": ["debt_ratio", "items"],
+      "required": ["format", "diagram"],
+      "properties": {
+        "format": { "type": "string", "enum": ["mermaid", "ascii"] },
+        "diagram": { "type": "string" }
+      }
+    },
+    "code_quality_assessment": {
+      "type": "object",
+      "properties": {
+        "overall_score": { "type": "number" },
+        "follows_best_practices": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "extensibility_and_maintainability": {
+      "type": "object",
+      "properties": {
+        "rating": { "type": "string", "enum": ["high", "medium", "low"] },
+        "coupling_assessment": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "technical_debt_analysis": {
+      "type": "object",
       "properties": {
         "debt_ratio": { "type": "number" },
+        "todo_fixme_count": { "type": "number" },
         "items": {
           "type": "array",
           "items": {
@@ -47,23 +153,70 @@
         }
       }
     },
-    "security_vulnerabilities": {
+    "dependency_health": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["cve_id", "severity", "description", "fix"],
+        "required": ["name", "issue"],
         "properties": {
-          "cve_id": { "type": "string" },
-          "severity": { "type": "string" },
-          "description": { "type": "string" },
-          "fix": { "type": "string" }
+          "name": { "type": "string" },
+          "current_version": { "type": "string" },
+          "issue": { "type": "string", "enum": ["outdated", "vulnerable", "unused", "obsolete"] },
+          "recommendation": { "type": "string" }
         }
       }
     },
-    "refactoring_suggestions": {
+    "complexity_analysis": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "object",
+        "required": ["file", "issue"],
+        "properties": {
+          "file": { "type": "string" },
+          "function": { "type": "string" },
+          "issue": { "type": "string" },
+          "recommendation": { "type": "string" }
+        }
+      }
+    },
+    "performance_bottlenecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["description", "impact", "file"],
+        "properties": {
+          "description": { "type": "string" },
+          "impact": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "file": { "type": "string" },
+          "recommendation": { "type": "string" }
+        }
+      }
+    },
+    "security_vulnerability_analysis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "description", "file", "remediation"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "description": { "type": "string" },
+          "file": { "type": "string" },
+          "cve_id": { "type": "string" },
+          "remediation": { "type": "string" }
+        }
+      }
+    },
+    "refactoring_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["description", "file", "effort", "impact"],
+        "properties": {
+          "description": { "type": "string" },
+          "file": { "type": "string" },
+          "effort": { "type": "string", "enum": ["low", "medium", "high"] },
+          "impact": { "type": "string", "enum": ["low", "medium", "high"] }
+        }
       }
     }
   }

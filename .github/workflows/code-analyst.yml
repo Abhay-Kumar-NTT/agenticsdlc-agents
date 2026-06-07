@@ -3,22 +3,29 @@ name: Code Analyst
 on:
   workflow_dispatch:
     inputs:
-      vision_path:
-        description: "Path to raw product vision markdown file"
+      repository_url_or_path:
+        description: "Repository URL (https://github.com/org/repo) or path within this repo to analyse"
         required: true
-        default: "artifacts/vision.md"
+        default: "."
 
 permissions:
   contents: write
-  issues: write
 
 jobs:
   run-code-analyst:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout this repository
         uses: actions/checkout@v4
+
+      - name: Checkout target repository (if external URL)
+        if: ${{ startsWith(github.event.inputs.repository_url_or_path, 'http') }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.repository_url_or_path }}
+          path: target-repo
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,21 +37,19 @@ jobs:
 
       - name: Run Code Analyst
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
             --agent agents/code-analyst/agent.yaml \
             --prompt agents/code-analyst/prompt.md \
-            --input ${{ github.event.inputs.vision_path }} \
+            --input "${{ github.event.inputs.repository_url_or_path }}" \
             --output artifacts/code-analyst/ \
             --verbose
 
-      - name: Commit generated code-analyst artifacts
+      - name: Commit generated analysis artifacts
         run: |
           git config user.name "AgenticSDLC Code Analyst"
           git config user.email "code-analyst@users.noreply.github.com"
           git add artifacts/code-analyst/
-          git commit -m "Generate code-analyst artifacts" || echo "No changes to commit"
+          git commit -m "chore: generate code analysis report for ${{ github.event.inputs.repository_url_or_path }}" || echo "No changes to commit"
           git push

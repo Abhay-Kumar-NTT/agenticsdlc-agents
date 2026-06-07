@@ -1,27 +1,38 @@
 id: code-analyst
 name: Code Analyst
-speciality: code-analysis-and-quality
+speciality: codebase-understanding-and-quality
 model: claude-sonnet-4-6
 provider: anthropic
-temperature: 0.7
-max_tokens: 4096
+temperature: 0.3
+max_tokens: 16000
 
 inputs:
-  - source_code
-  - repository_context
-  - quality_criteria
-  - analysis_scope
+  - repository_url_or_path
 
-outputs:
-  - code_quality_report
-  - technical_debt_assessment
-  - security_vulnerabilities
+# Primary outputs — codebase understanding
+primary_outputs:
+  - business_purpose
+  - functional_capabilities
+  - languages_and_runtimes
+  - code_structure_and_architecture
+  - libraries_and_dependencies
+  - code_flow_developer_guide
+  - architecture_flow_diagram
+
+# Secondary outputs — code quality & health
+secondary_outputs:
+  - code_quality_assessment
+  - extensibility_and_maintainability
+  - technical_debt_analysis
+  - dependency_health
+  - complexity_analysis
   - performance_bottlenecks
-  - refactoring_suggestions
+  - security_vulnerability_analysis
+  - refactoring_recommendations
 
 github_outputs:
-  issues: true
-  pull_request_comments: true
-  code_scanning_alerts: true
+  issues: false
+  pull_request_comments: false
+  code_scanning_alerts: false
 
 approval_required: []
