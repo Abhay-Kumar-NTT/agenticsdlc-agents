@@ -30,7 +30,12 @@ def main():
 
     if args.verbose:
         print(f"Loading input context from: {args.input}")
-    input_context = pathlib.Path(args.input).read_text(encoding="utf-8")
+    input_path = pathlib.Path(args.input)
+    if input_path.exists() and input_path.is_file():
+        input_context = input_path.read_text(encoding="utf-8")
+    else:
+        # Input is a raw value (e.g. repo URL, identifier) — use it directly as context
+        input_context = args.input
 
     # Create LLM client
     try:

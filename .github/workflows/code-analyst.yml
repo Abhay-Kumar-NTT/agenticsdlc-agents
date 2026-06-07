@@ -35,14 +35,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Prepare input context file
-        run: |
-          mkdir -p artifacts/code-analyst
-          cat > artifacts/code-analyst/input_context.md << 'EOF'
-          # Repository to Analyse
-          ${{ github.event.inputs.repository_url_or_path }}
-          EOF
-
       - name: Run Code Analyst
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -50,7 +42,7 @@ jobs:
           python scripts/run_agent.py \
             --agent agents/code-analyst/agent.yaml \
             --prompt agents/code-analyst/prompt.md \
-            --input artifacts/code-analyst/input_context.md \
+            --input "${{ github.event.inputs.repository_url_or_path }}" \
             --output artifacts/code-analyst/ \
             --verbose
 
