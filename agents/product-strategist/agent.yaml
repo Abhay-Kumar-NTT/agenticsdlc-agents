@@ -1,0 +1,29 @@
+id: product-strategist
+name: Product Strategist
+speciality: strategic-product-planning
+model: claude-opus-4-7
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - raw_business_idea
+  - market_context
+  - business_objectives
+  - stakeholder_input
+
+outputs:
+  - product_vision
+  - strategic_goals
+  - success_metrics
+  - roadmap_outline
+  - risk_assessment
+
+github_outputs:
+  milestones: true
+  labels: true
+  projects: true
+
+approval_required:
+  - vision_approval
+  - strategic_direction

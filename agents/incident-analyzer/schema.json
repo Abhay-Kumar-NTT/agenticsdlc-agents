@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "required": [
+    "root_cause_analysis",
+    "incident_timeline",
+    "impact_assessment",
+    "remediation_steps"
+  ],
+  "properties": {
+    "root_cause_analysis": {
+      "type": "object",
+      "required": ["root_cause", "contributing_factors", "evidence"],
+      "properties": {
+        "root_cause": { "type": "string" },
+        "contributing_factors": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "finding"],
+            "properties": {
+              "source": { "type": "string" },
+              "finding": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "incident_timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "event", "source"],
+        "properties": {
+          "timestamp": { "type": "string" },
+          "event": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "impact_assessment": {
+      "type": "object",
+      "required": ["severity", "users_affected", "downtime"],
+      "properties": {
+        "severity": { "type": "string" },
+        "users_affected": { "type": "string" },
+        "downtime": { "type": "string" },
+        "revenue_impact": { "type": "string" },
+        "services_affected": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "remediation_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step", "priority", "owner"],
+        "properties": {
+          "step": { "type": "string" },
+          "priority": { "type": "string" },
+          "owner": { "type": "string" },
+          "timeline": { "type": "string" }
+        }
+      }
+    },
+    "prevention_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

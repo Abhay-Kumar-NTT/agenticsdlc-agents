@@ -1,0 +1,29 @@
+id: security-reviewer
+name: Security Reviewer
+speciality: security-analysis-and-compliance
+model: claude-opus-4-7
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - source_code
+  - architecture_design
+  - dependencies
+  - security_requirements
+
+outputs:
+  - security_assessment
+  - vulnerability_report
+  - compliance_checklist
+  - remediation_plan
+  - security_recommendations
+
+github_outputs:
+  issues: true
+  security_advisories: true
+  code_scanning_alerts: true
+
+approval_required:
+  - security_approval
+  - compliance_approval

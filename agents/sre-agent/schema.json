@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "required": [
+    "reliability_assessment",
+    "slo_sli_definitions",
+    "runbooks"
+  ],
+  "properties": {
+    "reliability_assessment": {
+      "type": "object",
+      "required": ["overall_score", "findings"],
+      "properties": {
+        "overall_score": { "type": "number" },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["area", "status", "recommendation"],
+            "properties": {
+              "area": { "type": "string" },
+              "status": { "type": "string" },
+              "recommendation": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "slo_sli_definitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["service", "slo", "sli", "target"],
+        "properties": {
+          "service": { "type": "string" },
+          "slo": { "type": "string" },
+          "sli": { "type": "string" },
+          "target": { "type": "string" },
+          "measurement_window": { "type": "string" }
+        }
+      }
+    },
+    "runbooks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "scenario", "steps"],
+        "properties": {
+          "title": { "type": "string" },
+          "scenario": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "escalation": { "type": "string" }
+        }
+      }
+    },
+    "capacity_planning": {
+      "type": "object",
+      "required": ["current_usage", "projected_growth", "recommendations"],
+      "properties": {
+        "current_usage": { "type": "string" },
+        "projected_growth": { "type": "string" },
+        "recommendations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

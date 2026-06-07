@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "required": [
+    "ci_cd_pipelines",
+    "infrastructure_as_code",
+    "deployment_scripts"
+  ],
+  "properties": {
+    "ci_cd_pipelines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "trigger", "stages"],
+        "properties": {
+          "name": { "type": "string" },
+          "trigger": { "type": "string" },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "steps"],
+              "properties": {
+                "name": { "type": "string" },
+                "steps": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "infrastructure_as_code": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file_path", "tool", "content"],
+        "properties": {
+          "file_path": { "type": "string" },
+          "tool": { "type": "string" },
+          "content": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "deployment_scripts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["environment", "script_path", "content"],
+        "properties": {
+          "environment": { "type": "string" },
+          "script_path": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      }
+    },
+    "monitoring_configuration": {
+      "type": "object",
+      "required": ["metrics", "alerts"],
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "condition", "severity"],
+            "properties": {
+              "name": { "type": "string" },
+              "condition": { "type": "string" },
+              "severity": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

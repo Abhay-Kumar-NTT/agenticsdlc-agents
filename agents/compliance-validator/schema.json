@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "required": [
+    "compliance_report",
+    "gap_analysis",
+    "control_validation"
+  ],
+  "properties": {
+    "compliance_report": {
+      "type": "object",
+      "required": ["overall_status", "standards_assessed", "compliance_score"],
+      "properties": {
+        "overall_status": { "type": "string" },
+        "standards_assessed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "compliance_score": { "type": "number" },
+        "summary": { "type": "string" }
+      }
+    },
+    "gap_analysis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["standard", "requirement", "current_state", "target_state", "gap"],
+        "properties": {
+          "standard": { "type": "string" },
+          "requirement": { "type": "string" },
+          "current_state": { "type": "string" },
+          "target_state": { "type": "string" },
+          "gap": { "type": "string" },
+          "priority": { "type": "string" }
+        }
+      }
+    },
+    "control_validation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["control_id", "control_name", "validation_status", "evidence"],
+        "properties": {
+          "control_id": { "type": "string" },
+          "control_name": { "type": "string" },
+          "validation_status": { "type": "string" },
+          "evidence": { "type": "string" },
+          "findings": { "type": "string" }
+        }
+      }
+    },
+    "remediation_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue", "priority", "recommendation", "effort"],
+        "properties": {
+          "issue": { "type": "string" },
+          "priority": { "type": "string" },
+          "recommendation": { "type": "string" },
+          "effort": { "type": "string" }
+        }
+      }
+    }
+  }
+}

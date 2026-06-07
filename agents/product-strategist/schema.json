@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "required": [
+    "product_vision",
+    "strategic_goals",
+    "success_metrics",
+    "roadmap_outline"
+  ],
+  "properties": {
+    "product_vision": {
+      "type": "string"
+    },
+    "strategic_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["goal", "rationale", "timeline"],
+        "properties": {
+          "goal": { "type": "string" },
+          "rationale": { "type": "string" },
+          "timeline": { "type": "string" }
+        }
+      }
+    },
+    "success_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric", "target", "measurement"],
+        "properties": {
+          "metric": { "type": "string" },
+          "target": { "type": "string" },
+          "measurement": { "type": "string" }
+        }
+      }
+    },
+    "roadmap_outline": {
+      "type": "string"
+    },
+    "risk_assessment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["risk", "impact", "mitigation"],
+        "properties": {
+          "risk": { "type": "string" },
+          "impact": { "type": "string" },
+          "mitigation": { "type": "string" }
+        }
+      }
+    }
+  }
+}

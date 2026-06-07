@@ -1,0 +1,27 @@
+id: frontend-developer
+name: Frontend Developer
+speciality: frontend-implementation
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - ui_ux_specifications
+  - user_stories
+  - api_contracts
+  - design_mockups
+
+outputs:
+  - component_code
+  - state_management
+  - api_integration
+  - unit_tests
+  - e2e_tests
+
+github_outputs:
+  pull_requests: true
+  commits: true
+  code_reviews: true
+
+approval_required: []

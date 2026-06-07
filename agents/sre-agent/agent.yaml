@@ -1,0 +1,29 @@
+id: sre-agent
+name: SRE Agent
+speciality: site-reliability-and-operations
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - system_metrics
+  - incident_reports
+  - slo_targets
+  - infrastructure_state
+
+outputs:
+  - reliability_assessment
+  - incident_response_plan
+  - slo_sli_definitions
+  - runbooks
+  - capacity_planning
+
+github_outputs:
+  issues: true
+  actions: true
+  wiki: true
+
+approval_required:
+  - capacity_changes
+  - slo_modifications

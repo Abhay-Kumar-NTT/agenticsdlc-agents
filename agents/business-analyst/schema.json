@@ -1,0 +1,64 @@
+{
+  "type": "object",
+  "required": [
+    "business_requirements",
+    "process_flows",
+    "user_personas",
+    "functional_specifications"
+  ],
+  "properties": {
+    "business_requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "requirement", "priority", "rationale"],
+        "properties": {
+          "id": { "type": "string" },
+          "requirement": { "type": "string" },
+          "priority": { "type": "string" },
+          "rationale": { "type": "string" }
+        }
+      }
+    },
+    "process_flows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["process_name", "steps", "actors"],
+        "properties": {
+          "process_name": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "actors": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "user_personas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "role", "goals", "pain_points"],
+        "properties": {
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "goals": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "pain_points": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "functional_specifications": {
+      "type": "string"
+    }
+  }
+}

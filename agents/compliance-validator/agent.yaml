@@ -1,0 +1,29 @@
+id: compliance-validator
+name: Compliance Validator
+speciality: compliance-and-regulatory-validation
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - system_architecture
+  - data_flows
+  - security_controls
+  - compliance_requirements
+
+outputs:
+  - compliance_report
+  - gap_analysis
+  - control_validation
+  - audit_evidence
+  - remediation_recommendations
+
+github_outputs:
+  issues: true
+  audit_logs: true
+  compliance_reports: true
+
+approval_required:
+  - compliance_approval
+  - audit_approval

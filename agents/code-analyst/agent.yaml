@@ -1,0 +1,27 @@
+id: code-analyst
+name: Code Analyst
+speciality: code-analysis-and-quality
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - source_code
+  - repository_context
+  - quality_criteria
+  - analysis_scope
+
+outputs:
+  - code_quality_report
+  - technical_debt_assessment
+  - security_vulnerabilities
+  - performance_bottlenecks
+  - refactoring_suggestions
+
+github_outputs:
+  issues: true
+  pull_request_comments: true
+  code_scanning_alerts: true
+
+approval_required: []

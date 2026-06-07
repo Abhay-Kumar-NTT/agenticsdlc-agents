@@ -1,0 +1,30 @@
+id: solution-architect
+name: Solution Architect
+speciality: architecture-design-and-decisions
+model: claude-opus-4-7
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - requirements
+  - constraints
+  - existing_architecture
+  - technology_stack
+
+outputs:
+  - high_level_design
+  - low_level_design
+  - architecture_decisions
+  - api_specifications
+  - data_model
+
+github_outputs:
+  issues: true
+  labels: true
+  wiki: true
+
+approval_required:
+  - architecture_approval
+  - adr_approval
+  - design_review

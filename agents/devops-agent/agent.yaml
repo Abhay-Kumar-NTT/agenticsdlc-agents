@@ -1,0 +1,29 @@
+id: devops-agent
+name: DevOps Agent
+speciality: ci-cd-and-infrastructure
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - application_code
+  - infrastructure_requirements
+  - deployment_targets
+  - pipeline_configuration
+
+outputs:
+  - ci_cd_pipelines
+  - infrastructure_as_code
+  - deployment_scripts
+  - monitoring_configuration
+  - rollback_procedures
+
+github_outputs:
+  actions: true
+  environments: true
+  deployments: true
+
+approval_required:
+  - production_deployment
+  - infrastructure_changes

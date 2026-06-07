@@ -1,0 +1,29 @@
+id: business-analyst
+name: Business Analyst
+speciality: requirements-analysis-and-process
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - product_vision
+  - stakeholder_requirements
+  - business_processes
+  - constraints
+
+outputs:
+  - business_requirements
+  - process_flows
+  - user_personas
+  - functional_specifications
+  - non_functional_requirements
+
+github_outputs:
+  issues: true
+  labels: true
+  projects: true
+
+approval_required:
+  - requirements_finalization
+  - process_approval

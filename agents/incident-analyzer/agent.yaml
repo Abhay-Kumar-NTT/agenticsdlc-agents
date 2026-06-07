@@ -1,0 +1,27 @@
+id: incident-analyzer
+name: Incident Analyzer
+speciality: incident-analysis-and-root-cause
+model: claude-opus-4-7
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - incident_report
+  - system_logs
+  - metrics_data
+  - deployment_history
+
+outputs:
+  - root_cause_analysis
+  - incident_timeline
+  - impact_assessment
+  - remediation_steps
+  - prevention_recommendations
+
+github_outputs:
+  issues: true
+  wiki: true
+  postmortems: true
+
+approval_required: []

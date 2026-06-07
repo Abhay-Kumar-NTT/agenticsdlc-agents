@@ -1,0 +1,27 @@
+id: design-analyst
+name: Design Analyst
+speciality: design-patterns-and-architecture-analysis
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - architecture_documents
+  - code_structure
+  - design_requirements
+  - existing_patterns
+
+outputs:
+  - design_pattern_recommendations
+  - architecture_analysis
+  - design_improvements
+  - pattern_violations
+  - best_practices
+
+github_outputs:
+  issues: true
+  wiki: true
+  pull_request_comments: true
+
+approval_required: []

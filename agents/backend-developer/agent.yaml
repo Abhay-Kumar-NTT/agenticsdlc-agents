@@ -1,0 +1,27 @@
+id: backend-developer
+name: Backend Developer
+speciality: backend-implementation
+model: claude-sonnet-4-6
+provider: anthropic
+temperature: 0.7
+max_tokens: 4096
+
+inputs:
+  - user_stories
+  - api_specifications
+  - architecture_design
+  - data_models
+
+outputs:
+  - implementation_code
+  - api_endpoints
+  - database_migrations
+  - unit_tests
+  - integration_tests
+
+github_outputs:
+  pull_requests: true
+  commits: true
+  code_reviews: true
+
+approval_required: []

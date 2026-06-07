@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "required": [
+    "high_level_design",
+    "architecture_decisions",
+    "api_specifications"
+  ],
+  "properties": {
+    "high_level_design": {
+      "type": "string"
+    },
+    "low_level_design": {
+      "type": "string"
+    },
+    "architecture_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["adr_id", "title", "status", "context", "decision", "consequences"],
+        "properties": {
+          "adr_id": { "type": "string" },
+          "title": { "type": "string" },
+          "status": { "type": "string" },
+          "context": { "type": "string" },
+          "decision": { "type": "string" },
+          "consequences": { "type": "string" },
+          "alternatives": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "api_specifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["endpoint", "method", "description"],
+        "properties": {
+          "endpoint": { "type": "string" },
+          "method": { "type": "string" },
+          "description": { "type": "string" },
+          "request_schema": { "type": "object" },
+          "response_schema": { "type": "object" }
+        }
+      }
+    },
+    "data_model": {
+      "type": "string"
+    }
+  }
+}

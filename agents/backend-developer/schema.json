@@ -1,0 +1,64 @@
+{
+  "type": "object",
+  "required": [
+    "implementation_code",
+    "api_endpoints",
+    "unit_tests"
+  ],
+  "properties": {
+    "implementation_code": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file_path", "content"],
+        "properties": {
+          "file_path": { "type": "string" },
+          "content": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "api_endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["method", "path", "handler"],
+        "properties": {
+          "method": { "type": "string" },
+          "path": { "type": "string" },
+          "handler": { "type": "string" },
+          "middleware": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "database_migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["migration_name", "up", "down"],
+        "properties": {
+          "migration_name": { "type": "string" },
+          "up": { "type": "string" },
+          "down": { "type": "string" }
+        }
+      }
+    },
+    "unit_tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["test_file", "test_cases"],
+        "properties": {
+          "test_file": { "type": "string" },
+          "test_cases": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
