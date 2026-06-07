@@ -1,4 +1,4 @@
-name: DevOps Agent
+name: SRE Agent
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 jobs:
-  run-devops-agent:
+  run-sre-agent:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,23 +28,23 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run DevOps Agent
+      - name: Run SRE Agent
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
-            --agent agents/devops-agent/agent.yaml \
-            --prompt agents/devops-agent/prompt.md \
+            --agent agents/sre-agent/agent.yaml \
+            --prompt agents/sre-agent/prompt.md \
             --input ${{ github.event.inputs.vision_path }} \
-            --output artifacts/devops-agent/ \
+            --output artifacts/sre-agent/ \
             --verbose
 
-      - name: Commit generated devops-agent artifacts
+      - name: Commit generated sre-agent artifacts
         run: |
-          git config user.name "AgenticSDLC DevOps Agent"
-          git config user.email "devops-agent@users.noreply.github.com"
-          git add artifacts/devops-agent/
-          git commit -m "Generate devops-agent artifacts" || echo "No changes to commit"
+          git config user.name "AgenticSDLC SRE Agent"
+          git config user.email "sre-agent@users.noreply.github.com"
+          git add artifacts/sre-agent/
+          git commit -m "Generate sre-agent artifacts" || echo "No changes to commit"
           git push

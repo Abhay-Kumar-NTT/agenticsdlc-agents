@@ -1,4 +1,4 @@
-name: DevOps Agent
+name: QA Engineer
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 jobs:
-  run-devops-agent:
+  run-qa-engineer:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,23 +28,23 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run DevOps Agent
+      - name: Run QA Engineer
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
-            --agent agents/devops-agent/agent.yaml \
-            --prompt agents/devops-agent/prompt.md \
+            --agent agents/qa-engineer/agent.yaml \
+            --prompt agents/qa-engineer/prompt.md \
             --input ${{ github.event.inputs.vision_path }} \
-            --output artifacts/devops-agent/ \
+            --output artifacts/qa-engineer/ \
             --verbose
 
-      - name: Commit generated devops-agent artifacts
+      - name: Commit generated qa-engineer artifacts
         run: |
-          git config user.name "AgenticSDLC DevOps Agent"
-          git config user.email "devops-agent@users.noreply.github.com"
-          git add artifacts/devops-agent/
-          git commit -m "Generate devops-agent artifacts" || echo "No changes to commit"
+          git config user.name "AgenticSDLC QA Engineer"
+          git config user.email "qa-engineer@users.noreply.github.com"
+          git add artifacts/qa-engineer/
+          git commit -m "Generate qa-engineer artifacts" || echo "No changes to commit"
           git push

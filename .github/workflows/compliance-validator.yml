@@ -1,4 +1,4 @@
-name: DevOps Agent
+name: Compliance Validator
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 jobs:
-  run-devops-agent:
+  run-compliance-validator:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,23 +28,23 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run DevOps Agent
+      - name: Run Compliance Validator
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
-            --agent agents/devops-agent/agent.yaml \
-            --prompt agents/devops-agent/prompt.md \
+            --agent agents/compliance-validator/agent.yaml \
+            --prompt agents/compliance-validator/prompt.md \
             --input ${{ github.event.inputs.vision_path }} \
-            --output artifacts/devops-agent/ \
+            --output artifacts/compliance-validator/ \
             --verbose
 
-      - name: Commit generated devops-agent artifacts
+      - name: Commit generated compliance-validator artifacts
         run: |
-          git config user.name "AgenticSDLC DevOps Agent"
-          git config user.email "devops-agent@users.noreply.github.com"
-          git add artifacts/devops-agent/
-          git commit -m "Generate devops-agent artifacts" || echo "No changes to commit"
+          git config user.name "AgenticSDLC Compliance Validator"
+          git config user.email "compliance-validator@users.noreply.github.com"
+          git add artifacts/compliance-validator/
+          git commit -m "Generate compliance-validator artifacts" || echo "No changes to commit"
           git push

@@ -1,4 +1,4 @@
-name: DevOps Agent
+name: Product Strategist
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 jobs:
-  run-devops-agent:
+  run-product-strategist:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,23 +28,23 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run DevOps Agent
+      - name: Run Product Strategist
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/run_agent.py \
-            --agent agents/devops-agent/agent.yaml \
-            --prompt agents/devops-agent/prompt.md \
+            --agent agents/product-strategist/agent.yaml \
+            --prompt agents/product-strategist/prompt.md \
             --input ${{ github.event.inputs.vision_path }} \
-            --output artifacts/devops-agent/ \
+            --output artifacts/product-strategist/ \
             --verbose
 
-      - name: Commit generated devops-agent artifacts
+      - name: Commit generated product-strategist artifacts
         run: |
-          git config user.name "AgenticSDLC DevOps Agent"
-          git config user.email "devops-agent@users.noreply.github.com"
-          git add artifacts/devops-agent/
-          git commit -m "Generate devops-agent artifacts" || echo "No changes to commit"
+          git config user.name "AgenticSDLC Product Strategist"
+          git config user.email "product-strategist@users.noreply.github.com"
+          git add artifacts/product-strategist/
+          git commit -m "Generate product-strategist artifacts" || echo "No changes to commit"
           git push

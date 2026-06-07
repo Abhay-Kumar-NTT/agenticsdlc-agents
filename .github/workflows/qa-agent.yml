@@ -1,0 +1,50 @@
+name: QA Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      vision_path:
+        description: "Path to raw product vision markdown file"
+        required: true
+        default: "artifacts/vision.md"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  run-qa-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run QA Agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          python scripts/run_agent.py \
+            --agent agents/qa-agent/agent.yaml \
+            --prompt agents/qa-agent/prompt.md \
+            --input ${{ github.event.inputs.vision_path }} \
+            --output artifacts/qa-agent/ \
+            --verbose
+
+      - name: Commit generated qa-agent artifacts
+        run: |
+          git config user.name "AgenticSDLC QA Agent"
+          git config user.email "qa-agent@users.noreply.github.com"
+          git add artifacts/qa-agent/
+          git commit -m "Generate qa-agent artifacts" || echo "No changes to commit"
+          git push
