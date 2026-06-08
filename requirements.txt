@@ -5,13 +5,11 @@ pyyaml>=6.0
 # OpenAI (GPT-4, GPT-4o, etc.)
 openai>=1.0.0
 
-# Anthropic (Claude 3.5, Claude 4, etc.)
-anthropic>=0.40.0
+# Anthropic (Claude 3.5, Claude 4, etc.) — includes bedrock extra for AWS Bedrock support
+anthropic[bedrock]>=0.40.0
 
 # Google Generative AI (Gemini)
 google-generativeai>=0.3.0
 
 # Optional: for additional functionality
 python-dotenv>=1.0.0  # For .env file support
-
-pip install "anthropic[bedrock]"
