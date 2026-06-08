@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       repository_url_or_path:
-        description: "Repository URL (https://github.com/org/repo) or path within this repo to analyse"
+        description: "Repository to analyse — GitHub URL (https://github.com/owner/repo), owner/repo shorthand, or '.' for this repo"
         required: true
         default: "."
 
@@ -16,16 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout this repository
+      - name: Checkout this repository (agent code + scripts)
         uses: actions/checkout@v4
-
-      - name: Checkout target repository (if external URL)
-        if: ${{ startsWith(github.event.inputs.repository_url_or_path, 'http') }}
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.inputs.repository_url_or_path }}
-          path: target-repo
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,6 +26,37 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Resolve target repo and clone
+        id: resolve
+        run: |
+          INPUT="${{ github.event.inputs.repository_url_or_path }}"
+
+          # Normalise to owner/repo slug
+          if [ "$INPUT" = "." ] || [ -z "$INPUT" ]; then
+            SLUG="${{ github.repository }}"
+          elif echo "$INPUT" | grep -qE '^https?://github\.com/'; then
+            SLUG=$(echo "$INPUT" | sed 's|https://github.com/||' | sed 's|\.git$||')
+          else
+            SLUG="$INPUT"
+          fi
+
+          echo "slug=$SLUG" >> $GITHUB_OUTPUT
+          CLONE_DIR="target-repo"
+
+          if [ "$SLUG" = "${{ github.repository }}" ]; then
+            # Already checked out — just symlink
+            ln -s . "$CLONE_DIR" 2>/dev/null || true
+          else
+            git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${SLUG}.git" "$CLONE_DIR"
+          fi
+
+      - name: Build repository context file
+        run: |
+          python scripts/build_repo_context.py \
+            --repo-path target-repo \
+            --output artifacts/code-analyst/repo_context.md \
+            --label "${{ steps.resolve.outputs.slug }}"
 
       - name: Run Code Analyst
         env:
@@ -44,7 +67,7 @@ jobs:
           python scripts/run_agent.py \
             --agent agents/code-analyst/agent.yaml \
             --prompt agents/code-analyst/prompt.md \
-            --input "${{ github.event.inputs.repository_url_or_path }}" \
+            --input artifacts/code-analyst/repo_context.md \
             --output artifacts/code-analyst/ \
             --verbose
 
@@ -53,5 +76,5 @@ jobs:
           git config user.name "AgenticSDLC Code Analyst"
           git config user.email "code-analyst@users.noreply.github.com"
           git add artifacts/code-analyst/
-          git commit -m "chore: generate code analysis report for ${{ github.event.inputs.repository_url_or_path }}" || echo "No changes to commit"
+          git commit -m "chore: generate code analysis report for ${{ steps.resolve.outputs.slug }}" || echo "No changes to commit"
           git push
