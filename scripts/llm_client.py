@@ -10,6 +10,7 @@ from enum import Enum
 class LLMProvider(Enum):
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
+    BEDROCK = "bedrock"
     GOOGLE = "google"
     AZURE_OPENAI = "azure-openai"
 
@@ -42,6 +43,8 @@ class LLMClient:
             self._init_openai(api_key)
         elif self.provider == LLMProvider.ANTHROPIC:
             self._init_anthropic(api_key)
+        elif self.provider == LLMProvider.BEDROCK:
+            self._init_bedrock(**kwargs)
         elif self.provider == LLMProvider.GOOGLE:
             self._init_google(api_key)
         elif self.provider == LLMProvider.AZURE_OPENAI:
@@ -64,6 +67,18 @@ class LLMClient:
             raise ImportError("Anthropic package not installed. Run: pip install anthropic")
 
         self.client = Anthropic(api_key=api_key or os.getenv("ANTHROPIC_API_KEY"))
+
+    def _init_bedrock(self, **kwargs):
+        """Initialize Anthropic Bedrock client — uses AWS credentials, no API key needed"""
+        try:
+            from anthropic import AnthropicBedrock
+        except ImportError:
+            raise ImportError(
+                "Anthropic Bedrock package not installed. Run: pip install 'anthropic[bedrock]'"
+            )
+        self.client = AnthropicBedrock(
+            aws_region=kwargs.get("aws_region") or os.getenv("AWS_REGION", "us-east-1"),
+        )
 
     def _init_google(self, api_key: Optional[str]):
         """Initialize Google Generative AI client"""
@@ -115,7 +130,7 @@ class LLMClient:
         """
         if self.provider == LLMProvider.OPENAI:
             return self._generate_openai(prompt, system_prompt, temperature, max_tokens, **kwargs)
-        elif self.provider == LLMProvider.ANTHROPIC:
+        elif self.provider in (LLMProvider.ANTHROPIC, LLMProvider.BEDROCK):
             return self._generate_anthropic(prompt, system_prompt, temperature, max_tokens, **kwargs)
         elif self.provider == LLMProvider.GOOGLE:
             return self._generate_google(prompt, system_prompt, temperature, max_tokens, **kwargs)
@@ -267,7 +282,9 @@ def create_llm_client_from_config(agent_config: Dict[str, Any]) -> LLMClient:
     # Auto-detect provider from model name if not specified
     if not provider:
         model_lower = model.lower()
-        if "gpt" in model_lower or "o1" in model_lower or "o3" in model_lower:
+        if model_lower.startswith("arn:aws:bedrock") or "inference-profile" in model_lower:
+            provider = "bedrock"
+        elif "gpt" in model_lower or "o1" in model_lower or "o3" in model_lower:
             provider = "openai"
         elif "claude" in model_lower:
             provider = "anthropic"
@@ -278,7 +295,9 @@ def create_llm_client_from_config(agent_config: Dict[str, Any]) -> LLMClient:
 
     # Get provider-specific kwargs
     kwargs = {}
-    if provider == "azure-openai":
+    if provider == "bedrock":
+        kwargs["aws_region"] = agent_config.get("aws_region")
+    elif provider == "azure-openai":
         kwargs["azure_endpoint"] = agent_config.get("azure_endpoint")
         kwargs["azure_deployment"] = agent_config.get("azure_deployment")
         kwargs["api_version"] = agent_config.get("api_version")
