@@ -184,14 +184,17 @@ class LLMClient:
         **kwargs
     ) -> str:
         """Generate using Anthropic API"""
-        message = self.client.messages.create(
+        params = dict(
             model=self.model,
             max_tokens=max_tokens,
-            temperature=temperature,
             system=system_prompt or "",
             messages=[{"role": "user", "content": prompt}],
             **kwargs
         )
+        # Claude 4.x (Sonnet 4.6, Opus 4+) and Bedrock do not accept temperature
+        if self.provider == LLMProvider.ANTHROPIC:
+            params["temperature"] = temperature
+        message = self.client.messages.create(**params)
         return message.content[0].text
 
     def _generate_google(

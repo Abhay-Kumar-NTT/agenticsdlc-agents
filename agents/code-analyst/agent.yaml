@@ -3,8 +3,7 @@ name: Code Analyst
 speciality: codebase-understanding-and-quality
 model: arn:aws:bedrock:eu-west-1:021891579215:application-inference-profile/hyuvzjlvma2h
 provider: bedrock
-aws_region: us-east-1
-temperature: 0.3
+aws_region: eu-west-1
 max_tokens: 16000
 
 inputs:
